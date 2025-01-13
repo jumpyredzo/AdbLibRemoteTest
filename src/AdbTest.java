@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Scanner;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -70,8 +69,7 @@ public class AdbTest {
 		return c;
 	}
 	
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
+	public static void connectToShell(String hostName, int port, RemoteCommand remote) {
 		AdbConnection adb;
 		Socket sock;
 		AdbCrypto crypto;
@@ -93,7 +91,7 @@ public class AdbTest {
 		// Connect the socket to the remote host
 		System.out.println("Socket connecting...");
 		try {
-			sock = new Socket("192.168.1.137", 5555);
+			sock = new Socket(hostName, port);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			return;
@@ -163,7 +161,9 @@ public class AdbTest {
 		// We become the sending thread
 		for (;;) {
 			try {
-				stream.write(in.nextLine()+'\n');
+				if (remote.hasCommand()) {
+					stream.write(remote.getNextCommand());
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				return;

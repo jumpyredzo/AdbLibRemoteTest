@@ -10,7 +10,7 @@ public class AdbRemoteTest {
         new Thread(new Runnable() {
 			@Override
 			public void run() {
-				AdbTest.connectToShell("192.168.0.182", 5555, myRemote);
+				AdbShell.connectToShell("192.168.0.182", 5555, myRemote);
 			}
 		}).start();
         

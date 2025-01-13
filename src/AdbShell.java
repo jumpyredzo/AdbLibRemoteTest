@@ -15,7 +15,7 @@ import com.cgutman.adblib.AdbStream;
 
 
 
-public class AdbTest {
+public class AdbShell {
 	// This implements the AdbBase64 interface required for AdbCrypto
 	public static AdbBase64 getBase64Impl() {
 		return new AdbBase64() {
@@ -39,7 +39,7 @@ public class AdbTest {
 		if (pub.exists() && priv.exists())
 		{
 			try {
-				c = AdbCrypto.loadAdbKeyPair(AdbTest.getBase64Impl(), priv, pub);
+				c = AdbCrypto.loadAdbKeyPair(AdbShell.getBase64Impl(), priv, pub);
 			} catch (IOException e) {
 				// Failed to read from file
 				c = null;
@@ -55,7 +55,7 @@ public class AdbTest {
 		if (c == null)
 		{
 			// We couldn't load a key, so let's generate a new one
-			c = AdbCrypto.generateAdbKeyPair(AdbTest.getBase64Impl());
+			c = AdbCrypto.generateAdbKeyPair(AdbShell.getBase64Impl());
 			
 			// Save it
 			c.saveAdbKeyPair(priv, pub);

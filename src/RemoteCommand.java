@@ -1,24 +1,26 @@
-import java.util.Queue;
-import java.util.LinkedList;
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class RemoteCommand {
     private final String COMMAND_PREFIX = "input keyevent ";
-    private Queue<byte[]> commandQueue;
+    private BlockingQueue<byte[]> commandQueue;
 
     public RemoteCommand() {
-        commandQueue = new LinkedList<>();
+        commandQueue = new LinkedBlockingDeque<>();
     }
 
-    public synchronized Boolean hasCommand() {
-        return commandQueue.size() > 0;
-    }
-
-    public synchronized byte[] getNextCommand() {
-        return commandQueue.poll();
+    public byte[] getNextCommand() {
+        try {
+            return commandQueue.take();
+        }
+        catch (InterruptedException e) {
+            return new byte[0];
+        }
     }
 
     // Adds command to queue with corresponding keycode
-    public synchronized void queueCommand(String commandStr) {
+    public void queueCommand(String commandStr) {
         switch (commandStr) {
             case "UP":
                 commandQueue.add(processCommand("19"));
@@ -48,7 +50,7 @@ public class RemoteCommand {
         try {
             return (COMMAND_PREFIX + keyCode + "\n").getBytes("UTF-8");
         }
-        catch (Exception e) {
+        catch (UnsupportedEncodingException e) {
             return new byte[0];
         }
     }

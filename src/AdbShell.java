@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -161,10 +162,10 @@ public class AdbShell {
 		// We become the sending thread
 		for (;;) {
 			try {
-				if (remote.hasCommand()) {
-					stream.write(remote.getNextCommand());
-				}
-			} catch (IOException e) {
+				System.out.println(new String(remote.getNextCommand(), StandardCharsets.UTF_8));
+				stream.write(remote.getNextCommand());
+			} 
+			catch (IOException e) {
 				e.printStackTrace();
 				return;
 			} catch (InterruptedException e) {

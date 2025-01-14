@@ -137,6 +137,7 @@ public class AdbShell {
 			return;
 		}
 		
+		//TODO: Remove this thread? Don't think it's necessary
 		// Start the receiving thread
 		new Thread(new Runnable() {
 			@Override

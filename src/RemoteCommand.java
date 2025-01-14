@@ -40,6 +40,22 @@ public class RemoteCommand {
             case "BACK":
                 commandQueue.add(processCommand("4"));
                 break;
+            case "PLAY/PAUSE":
+                commandQueue.add(processCommand("85"));
+                break;
+            case "VOL_UP":
+                commandQueue.add(processCommand("24"));
+                break;
+            case "VOL_DOWN":
+                commandQueue.add(processCommand("25"));
+                break;
+            case "HOME":
+                commandQueue.add(processCommand("3"));
+                break;
+            // Not sure if works
+            case "SELECT_LONG":
+                commandQueue.add(processCommand("--longpress 66"));
+                break;
             default:
                 break;
         }
